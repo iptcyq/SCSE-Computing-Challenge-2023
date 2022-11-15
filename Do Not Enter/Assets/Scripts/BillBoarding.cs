@@ -17,7 +17,7 @@ public class BillBoarding : MonoBehaviour
     void LateUpdate()
     {
         transform.LookAt(cam.transform);
-        transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
+        transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y + 180, 0f);
 
         //if want a diff billboarding method
         //if not static then make transform.rotation = cam.transform.rotation
