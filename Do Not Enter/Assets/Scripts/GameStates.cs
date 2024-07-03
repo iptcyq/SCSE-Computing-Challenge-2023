@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameStates : MonoBehaviour
 {
     //game states
-    private string[] states;
+    public string[] states;
     private int currIndex = 0;
 
     //dialog manager
@@ -13,12 +13,14 @@ public class GameStates : MonoBehaviour
 
     // parallel arrays of interactables
     public GameObject[] inter;
-    public string[] desc;
 
     // Start is called before the first frame update
     void Start()
     {
         dl = GetComponent<Dialog>();
+
+        currIndex = 0;
+        ActivateObjects();
     }
 
     public void ChangeState()
@@ -26,8 +28,39 @@ public class GameStates : MonoBehaviour
         if(currIndex < states.Length) //to avoid errors and stuff
         {
             currIndex += 1;
-            dl.SetText(desc[currIndex]);
         }
+    }
+
+    void ActivateObjects()
+    {
+        //set objects active/ not active
+        for (int i = 0; i < inter.Length; i++)
+        {
+            if (inter[i].GetComponent<Interactable>().stateInd == currIndex)
+            {
+                inter[i].active = true;
+            }
+            else
+            {
+                inter[i].active = false;
+            }
+        }
+    }
+
+    bool ConfirmStateChange()
+    {
+        for(int i = 0; i < inter.Length; i++)
+        {
+            if (inter[i].GetComponent<Interactable>().stateInd == currIndex)
+            {
+                if(inter[i].active == true) //not interacted with yet
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+
     }
 
     void Update()
@@ -45,6 +78,5 @@ public class GameStates : MonoBehaviour
          */
 
     }
-
 
 }
